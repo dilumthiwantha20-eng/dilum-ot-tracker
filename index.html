@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#073b78">
+<title>Dilum OT Tracker</title>
+<style>
+:root{--navy:#073b78;--blue:#0866d8;--orange:#f28c28;--purple:#8846cf;--green:#168653;--bg:#f2f6fb;--ink:#16263b;--muted:#63748a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Sinhala",sans-serif}
+header{background:linear-gradient(135deg,#062b59,#0871d8);color:white;padding:20px 16px 24px;border-radius:0 0 22px 22px}
+header h1{margin:0;font-size:23px}header p{margin:5px 0 0;opacity:.9;font-size:13px}
+main{max-width:760px;margin:auto;padding:14px 12px 90px}.tabs{display:flex;gap:8px;margin:-3px 0 14px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:2}
+button,.tab{border:0;border-radius:12px;padding:11px 13px;font-weight:700;cursor:pointer;font-size:14px}
+.tab{flex:1;background:#e0e9f5;color:#24415f}.tab.active{background:var(--navy);color:white}
+.card{background:white;border-radius:17px;padding:16px;margin-bottom:13px;box-shadow:0 3px 14px #193a5b0b}
+h2{font-size:17px;margin:0 0 13px}h3{font-size:14px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}
+input,textarea,select{width:100%;padding:11px;border:1px solid #d4dfec;border-radius:10px;font:inherit;color:var(--ink);background:white}
+textarea{resize:vertical;min-height:55px}.full{grid-column:1/-1}
+.rate{padding:12px;border-radius:12px;background:#fff1e4;color:#a94e00}.rate.purple{background:#f3eaff;color:#7135b2}
+.rate strong{display:block;font-size:19px;margin-top:3px}.primary{background:var(--blue);color:white;width:100%;margin-top:12px}.greenbtn{background:var(--green);color:white}.ghost{background:#eaf1fa;color:var(--navy)}.danger{background:#fff0f0;color:#b42318;padding:7px 10px}
+.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{padding:13px;border-radius:13px;background:#fff0e2}.metric.purple{background:#f3eaff}.metric.green{background:#e5f7ed}.metric.blue{background:#e7f1ff}.metric span{font-size:12px;color:var(--muted)}.metric strong{display:block;font-size:17px;margin-top:5px;overflow-wrap:anywhere}
+.total{background:linear-gradient(120deg,#06366e,#0873d9);color:white;border-radius:14px;padding:15px;margin-top:10px}.total span{font-size:13px}.total strong{font-size:25px;display:block;margin-top:4px}
+.hidden{display:none!important}.record{border:1px solid #e0e8f2;border-radius:12px;padding:12px;margin:9px 0}.recordtop{display:flex;justify-content:space-between;gap:8px;align-items:center}.record small{color:var(--muted)}.record .nums{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0;font-size:13px}
+.pill{font-size:11px;padding:4px 7px;border-radius:7px;background:#fff0e2;color:#a94e00}.pill.p{background:#f3eaff;color:#7135b2}
+.rowbuttons{display:flex;gap:8px;flex-wrap:wrap}.rowbuttons button{flex:1}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:9px 7px;border-bottom:1px solid #e5ebf3;text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{background:#eaf3ff;color:#173e6d}
+.note{font-size:12px;color:var(--muted);line-height:1.55}.empty{text-align:center;color:var(--muted);padding:24px 5px}
+footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #dfe7f1;padding:9px 12px;text-align:center;font-size:11px;color:var(--muted)}
+@media(min-width:600px){main{padding-top:20px}.grid{gap:14px}}
+</style>
+</head>
+<body>
+<header><h1>🗓️ Dilum OT Tracker</h1><p>දිනපතා OT සටහන් • 1.25 OT / 1.5 OT • මාසික වාර්තා</p></header>
+<main>
+<div class="tabs">
+<button class="tab active" data-tab="home">මුල් පිටුව</button>
+<button class="tab" data-tab="entry">OT සටහන්</button>
+<button class="tab" data-tab="report">මාසික වාර්තා</button>
+<button class="tab" data-tab="settings">සැකසුම්</button>
+</div>
+<section id="home">
+<div class="card"><h2>💰 වැටුප් සාරාංශය</h2>
+<div class="summary">
+<div class="metric"><span>1.25 OT මුදල</span><strong id="home125">රු. 0.00</strong></div>
+<div class="metric purple"><span>1.5 OT මුදල</span><strong id="home150">රු. 0.00</strong></div>
+<div class="metric green"><span>මුළු OT මුදල</span><strong id="homeOT">රු. 0.00</strong></div>
+<div class="metric blue"><span>මෙම මාසයේ OT පැය</span><strong id="homeHours">0.00</strong></div>
+</div><div class="total"><span>මූලික වැටුප + දීමනා + OT</span><strong id="homeSalary">රු. 0.00</strong></div>
+<p class="note">දැනට පෙන්වන්නේ තෝරාගත් මාසයේ වාර්තාවයි. ගාස්තු සැකසුම්වලින් වෙනස් කළ හැකියි.</p>
+</div>
+<div class="card"><h2>➕ ඉක්මන් සටහනක්</h2><button class="primary" onclick="showTab('entry')">දිනපතා OT ඇතුළත් කරන්න</button></div>
+<div class="card"><h2>🧾 දත්ත Backup</h2><p class="note">ඔබේ දුරකථනයේ Browser එක තුළ සටහන් සුරැකේ. දත්ත අහිමි නොවීමට CSV Backup එකක් නිතර ලබාගන්න.</p><button class="ghost" onclick="exportCSV()">CSV Backup බාගත කරන්න</button></div>
+</section>
+<section id="entry" class="hidden">
+<div class="card"><h2>📅 දිනපතා OT සටහන් කරන්න</h2>
+<form id="entryForm">
+<div class="grid">
+<label class="field">දිනය<input id="date" type="date" required></label>
+<label class="field">1.25 OT පැය<input id="hours125" type="number" min="0" step="0.01" value="0"></label>
+<label class="field">1.5 OT පැය<input id="hours150" type="number" min="0" step="0.01" value="0"></label>
+<label class="field full">සටහන (අවශ්‍ය නම්)<textarea id="notes" placeholder="උදා: අමතර සේවා / වැඩ විස්තර"></textarea></label>
+</div>
+<div class="summary" style="margin-top:12px">
+<div class="rate"><span>1.25 OT මුදල</span><strong id="preview125">රු. 0.00</strong></div>
+<div class="rate purple"><span>1.5 OT මුදල</span><strong id="preview150">රු. 0.00</strong></div>
+</div>
+<button class="primary" type="submit" id="saveBtn">සටහන සුරකින්න</button>
+<button class="ghost hidden" type="button" id="cancelEdit" onclick="resetForm()">සංස්කරණය අවලංගු කරන්න</button>
+</form>
+</div>
+<div class="card"><h2>📋 සටහන් ලැයිස්තුව</h2><label class="field">මාසය<select id="entryMonth"></select></label><div id="recordList"></div></div>
+</section>
+<section id="report" class="hidden">
+<div class="card"><h2>📊 මාසික වාර්තාව</h2><label class="field">වාර්තාව සඳහා මාසය<select id="reportMonth"></select></label>
+<div class="summary" style="margin-top:12px">
+<div class="metric"><span>1.25 OT පැය</span><strong id="rH125">0.00</strong></div><div class="metric purple"><span>1.5 OT පැය</span><strong id="rH150">0.00</strong></div>
+<div class="metric"><span>1.25 OT මුදල</span><strong id="rM125">රු. 0.00</strong></div><div class="metric purple"><span>1.5 OT මුදල</span><strong id="rM150">රු. 0.00</strong></div>
+</div><div class="total"><span>මාසයේ මුළු OT මුදල</span><strong id="rTotal">රු. 0.00</strong></div>
+<div class="tablewrap" style="margin-top:14px"><table><thead><tr><th>දිනය</th><th>1.25 පැය</th><th>1.5 පැය</th><th>OT මුදල</th></tr></thead><tbody id="reportRows"></tbody></table></div>
+<button class="primary" onclick="exportCSV()">CSV වාර්තාව බාගත කරන්න</button>
+</div>
+</section>
+<section id="settings" class="hidden">
+<div class="card"><h2>⚙️ වැටුප් සහ OT ගාස්තු</h2>
+<div class="grid">
+<label class="field full">මූලික වැටුප (රු.)<input id="basic" type="number" min="0" step="0.01"></label>
+<label class="field">1.25 OT පැයක ගාස්තුව (රු.)<input id="rate125" type="number" min="0" step="0.01"></label>
+<label class="field">1.5 OT පැයක ගාස්තුව (රු.)<input id="rate150" type="number" min="0" step="0.01"></label>
+<label class="field full">මාසික දීමනා එකතුව (රු.)<input id="allowance" type="number" min="0" step="0.01"></label>
+</div>
+<button class="primary" onclick="saveSettings()">සැකසුම් සුරකින්න</button>
+<p class="note">පෙරනිමි අගයන්: මූලික වැටුප රු. 50,630; 1.25 OT රු. 237.56/පැය; 1.5 OT රු. 273.67/පැය. ඔබගේ නිල වැටුප් ගණනයට අනුව ගාස්තු තහවුරු කර ඇතුළත් කරන්න.</p>
+</div>
+<div class="card"><h2>🛡️ දත්ත කළමනාකරණය</h2><div class="rowbuttons"><button class="ghost" onclick="exportCSV()">CSV Backup</button><button class="danger" onclick="clearAll()">සියලු දත්ත මකන්න</button></div><p class="note">මෙම වෙබ් App එක ඔබගේ Browser එකේ local storage භාවිත කරයි. Browser data clear කළහොත් සටහන් මැකිය හැකියි.</p></div>
+</section>
+</main><footer>OT Tracker • දත්ත ඔබගේ උපාංගයේම සුරැකේ</footer>
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>'රු. '+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const num=id=>Math.max(0,Number($(id).value)||0);
+const today=new Date();const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+let settings=JSON.parse(localStorage.getItem('otSettings')||'null')||{basic:50630,rate125:237.56,rate150:273.67,allowance:0};
+let records=JSON.parse(localStorage.getItem('otRecords')||'[]');let editId=null;
+function persist(){localStorage.setItem('otRecords',JSON.stringify(records))}
+function ot(r){return r.h125*settings.rate125+r.h150*settings.rate150}
+function monthKey(d){return d.slice(0,7)}
+function selectedMonth(){return $('reportMonth').value||monthKey(iso(today))}
+function fillMonths(){let months=new Set([monthKey(iso(today))]);records.forEach(r=>months.add(monthKey(r.date)));let arr=[...months].sort().reverse();['entryMonth','reportMonth'].forEach(id=>{let old=$(id).value;$(id).innerHTML=arr.map(m=>`<option value="${m}">${m}</option>`).join('');if(arr.includes(old))$(id).value=old;});}
+function sumMonth(m){let a=records.filter(r=>monthKey(r.date)===m);return {a,h125:a.reduce((s,r)=>s+r.h125,0),h150:a.reduce((s,r)=>s+r.h150,0),m125:a.reduce((s,r)=>s+r.h125*settings.rate125,0),m150:a.reduce((s,r)=>s+r.h150*settings.rate150,0)}}
+function render(){fillMonths();let m=selectedMonth(),s=sumMonth(m),total=s.m125+s.m150;
+$('home125').textContent=money(s.m125);$('home150').textContent=money(s.m150);$('homeOT').textContent=money(total);$('homeHours').textContent=(s.h125+s.h150).toFixed(2);$('homeSalary').textContent=money(settings.basic+settings.allowance+total);
+$('rH125').textContent=s.h125.toFixed(2);$('rH150').textContent=s.h150.toFixed(2);$('rM125').textContent=money(s.m125);$('rM150').textContent=money(s.m150);$('rTotal').textContent=money(total);
+$('reportRows').innerHTML=s.a.sort((x,y)=>x.date.localeCompare(y.date)).map(r=>`<tr><td>${r.date}</td><td>${r.h125.toFixed(2)}</td><td>${r.h150.toFixed(2)}</td><td>${money(ot(r))}</td></tr>`).join('')||'<tr><td colspan="4" style="text-align:center">මෙම මාසයට සටහන් නැත</td></tr>';
+let em=$('entryMonth').value||m;let list=records.filter(r=>monthKey(r.date)===em).sort((a,b)=>b.date.localeCompare(a.date));
+$('recordList').innerHTML=list.map(r=>`<div class="record"><div class="recordtop"><strong>${r.date}</strong><strong>${money(ot(r))}</strong></div><div class="nums"><span class="pill">1.25 OT: ${r.h125.toFixed(2)} පැය</span><span class="pill p">1.5 OT: ${r.h150.toFixed(2)} පැය</span></div>${r.notes?`<small>${escapeHTML(r.notes)}</small>`:''}<div class="rowbuttons" style="margin-top:8px"><button class="ghost" onclick="editRecord('${r.id}')">සංස්කරණය</button><button class="danger" onclick="deleteRecord('${r.id}')">මකන්න</button></div></div>`).join('')||'<div class="empty">තවම සටහන් නැත</div>';
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showTab(name){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));$(name).classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));render()}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function preview(){ $('preview125').textContent=money(num('hours125')*settings.rate125);$('preview150').textContent=money(num('hours150')*settings.rate150)}
+['hours125','hours150'].forEach(id=>$(id).addEventListener('input',preview));
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();let r={id:editId||String(Date.now()),date:$('date').value,h125:num('hours125'),h150:num('hours150'),notes:$('notes').value.trim()};if(!r.date)return alert('දිනය තෝරන්න.');if(r.h125===0&&r.h150===0)return alert('OT පැය ගණනක් ඇතුළත් කරන්න.');let i=records.findIndex(x=>x.id===editId);if(i>=0)records[i]=r;else records.push(r);persist();resetForm();render();alert('OT සටහන සුරැකුණා.');});
+function resetForm(){$('entryForm').reset();$('date').value=iso(today);$('hours125').value='0';$('hours150').value='0';editId=null;$('saveBtn').textContent='සටහන සුරකින්න';$('cancelEdit').classList.add('hidden');preview()}
+function editRecord(id){let r=records.find(x=>x.id===id);if(!r)return;editId=id;$('date').value=r.date;$('hours125').value=r.h125;$('hours150').value=r.h150;$('notes').value=r.notes||'';$('saveBtn').textContent='වෙනස්කම් සුරකින්න';$('cancelEdit').classList.remove('hidden');preview();showTab('entry');window.scrollTo({top:0,behavior:'smooth'})}
+function deleteRecord(id){if(confirm('මෙම OT සටහන මකා දමන්නද?')){records=records.filter(r=>r.id!==id);persist();render()}}
+function saveSettings(){settings={basic:num('basic'),rate125:num('rate125'),rate150:num('rate150'),allowance:num('allowance')};localStorage.setItem('otSettings',JSON.stringify(settings));render();preview();alert('සැකසුම් සුරැකුණා.')}
+function loadSettings(){$('basic').value=settings.basic;$('rate125').value=settings.rate125;$('rate150').value=settings.rate150;$('allowance').value=settings.allowance}
+function exportCSV(){let rows=[['Date','1.25 OT Hours','1.5 OT Hours','1.25 OT Amount','1.5 OT Amount','Total OT','Notes'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>[r.date,r.h125,r.h150,(r.h125*settings.rate125).toFixed(2),(r.h150*settings.rate150).toFixed(2),ot(r).toFixed(2),r.notes||''])];let csv='\ufeff'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');let blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='OT-Tracker-Backup.csv';a.click();URL.revokeObjectURL(url)}
+function clearAll(){if(confirm('සියලුම OT සටහන් සහ සැකසුම් නැවත මුල් අගයන්ට හරවන්නද?')){if(confirm('මෙය ආපසු හැරවිය නොහැක. දිගටම කරගෙන යන්නද?')){records=[];settings={basic:50630,rate125:237.56,rate150:273.67,allowance:0};persist();localStorage.removeItem('otSettings');loadSettings();render();}}}
+$('reportMonth').addEventListener('change',render);$('entryMonth').addEventListener('change',render);
+$('date').value=iso(today);loadSettings();render();preview();
+</script>
+</body></html>
